@@ -1,0 +1,11 @@
+FlaskJournal/
+│
+├── app.py
+├── data/
+│    └── students.json   ← пока этого файла может не быть, это нормально
+├── templates/
+│    ├── index.html
+│    ├── students.html
+│    └── add_student.html
+└── static/
+     └── style.css

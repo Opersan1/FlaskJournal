@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Добавить ученика</h2>
+
+<form method="POST" class="row g-3 w-75">
+  <div class="col-md-6">
+    <label class="form-label">Имя</label>
+    <input type="text" name="name" class="form-control" required>
+  </div>
+
+  <div class="col-md-6">
+    <label class="form-label">Предмет</label>
+    <input type="text" name="subject" class="form-control" required>
+  </div>
+
+  <div class="col-md-6">
+    <label class="form-label">Оценка</label>
+    <input type="number" name="grade" class="form-control" required min="1" max="5">
+  </div>
+
+  <div class="col-12">
+    <button type="submit" class="btn btn-primary">Добавить</button>
+    <a href="{{ url_for('students') }}" class="btn btn-secondary">Отмена</a>
+  </div>
+</form>
+{% endblock %}

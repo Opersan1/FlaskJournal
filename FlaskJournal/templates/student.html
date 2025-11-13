@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-4">
+  <h2 class="text-center mb-4">Кабинет ученика {{ student.name }}</h2>
+
+  {% if student.subjects %}
+  <table class="table table-bordered table-hover text-center align-middle shadow-sm">
+    <thead class="table-primary">
+      <tr>
+        <th>Предмет</th>
+        <th>Оценки</th>
+        <th>Средний балл</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for subj in student.subjects %}
+        {% set grades = subj.grades.split(',') %}
+        {% set grades_float = [] %}
+        {% for g in grades %}
+          {% if g.strip() != '' %}
+            {% set _ = grades_float.append(g|float) %}
+          {% endif %}
+        {% endfor %}
+        {% set avg = (grades_float|sum / (grades_float|length)) if grades_float else 0 %}
+        <tr {% if avg < 3 %}class="table-danger"{% elif avg < 4 %}class="table-warning"{% else %}class="table-success"{% endif %}>
+          <td><strong>{{ subj.subject }}</strong></td>
+          <td>{{ subj.grades }}</td>
+          <td>{{ "%.2f"|format(avg) }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <!-- Контейнер для графика -->
+  <div class="mt-5">
+    <h4 class="text-center mb-3">График успеваемости</h4>
+    <canvas id="gradesChart"></canvas>
+  </div>
+
+  {% else %}
+  <p class="text-center mt-4 text-muted">Оценок пока нет</p>
+  {% endif %}
+</div>
+
+<!-- Подключаем Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+{% if student.subjects %}
+<script>
+  const ctx = document.getElementById('gradesChart');
+
+  const subjects = {{ student.subjects | map(attribute='subject') | list | tojson }};
+  const gradesRaw = {{ student.subjects | map(attribute='grades') | list | tojson }};
+
+  // Вычисляем средние оценки в JS
+  const avgData = gradesRaw.map(grades => {
+    const nums = grades.split(',').map(Number).filter(n => !isNaN(n));
+    const sum = nums.reduce((a, b) => a + b, 0);
+    return nums.length ? (sum / nums.length).toFixed(2) : 0;
+  });
+
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: subjects,
+      datasets: [{
+        label: 'Средний балл',
+        data: avgData,
+        backgroundColor: avgData.map(a => a < 3 ? '#f87171' : a < 4 ? '#facc15' : '#4ade80'),
+        borderColor: '#2563eb',
+        borderWidth: 1
+      }]
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true,
+          max: 5
+        }
+      }
+    }
+  });
+</script>
+{% endif %}
+{% endblock %}

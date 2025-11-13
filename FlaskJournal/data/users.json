@@ -1,0 +1,17 @@
+[
+    {
+        "username": "Opersan",
+        "password": "grip1159",
+        "role": "teacher"
+    },
+    {
+        "username": "Opersan1",
+        "password": "ПКШЗ1159",
+        "role": "student"
+    },
+    {
+        "username": "Даниил Вельмакин",
+        "password": "привет",
+        "role": "student"
+    }
+]

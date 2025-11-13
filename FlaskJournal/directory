@@ -1,0 +1,13 @@
+FlaskJournal/
+│
+├── app.py                 # Главный файл приложения
+├── data/                  # Папка для хранения данных (имитация базы)
+│    └── students.json     # "База данных" в виде JSON-файла
+│
+├── templates/             # HTML-шаблоны
+│    ├── index.html
+│    ├── students.html
+│    ├── add_student.html
+│
+└── static/                # CSS, картинки, и т.д.
+     └── style.css

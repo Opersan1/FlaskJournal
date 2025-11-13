@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="col-md-6 offset-md-3">
+  <h2>Редактировать ученика {{ student.name }}</h2>
+  <form method="post">
+    <div class="mb-3">
+      <label>Предмет:</label>
+      <input class="form-control" name="subject" required>
+    </div>
+    <div class="mb-3">
+      <label>Оценки:</label>
+      <input class="form-control" name="grades" required>
+    </div>
+    <button class="btn btn-success">Сохранить</button>
+    <a class="btn btn-secondary" href="{{ url_for('teacher') }}">Назад</a>
+  </form>
+</div>
+{% endblock %}
